@@ -1,0 +1,52 @@
+openapi: 3.0.0
+info:
+  title: TBP Core API
+  version: '1.0'
+  contact: {}
+  description: TBP Core API
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  /messages:
+    get:
+      summary: List messages
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Message'
+      operationId: get-messages
+      description: List messages
+components:
+  schemas:
+    Message:
+      title: Message
+      type: object
+      description: Message
+      properties:
+        id:
+          type: string
+          pattern: ^\d+$
+        type:
+          type: string
+          pattern: message
+        attributes:
+          type: object
+          required:
+            - title
+          properties:
+            title:
+              type: string
+      required:
+        - id
+        - type
+        - attributes
+  securitySchemes: {}
