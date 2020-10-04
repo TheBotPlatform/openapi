@@ -1,0 +1,167 @@
+openapi: 3.0.0
+info:
+  title: TBP API
+  version: '1.0'
+  contact: {}
+  description: TBP Core API
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  '/bots/{botID}/messages':
+    get:
+      summary: List messages
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Message'
+              examples: {}
+      operationId: get-bot-messages
+      description: List messages for a bot identified by botID
+      parameters: []
+    parameters:
+      - schema:
+          type: string
+        name: botID
+        in: path
+        required: true
+  '/bots/{botID}/userattributes':
+    parameters:
+      - schema:
+          type: string
+        name: botID
+        in: path
+        required: true
+    get:
+      summary: List user attributes for bot or user
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/UserAttribute'
+      operationId: get-bot-userattributes
+      description: 'List user attributes for a bot identified by botID, optionally scoped to a given userID'
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: user
+          description: user identifier (email or external ID)
+  '/bots/{botID}/userattributes/{userattributeID}':
+    parameters:
+      - schema:
+          type: string
+        name: botID
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: userattributeID
+        in: path
+        required: true
+    get:
+      summary: Get  user attribute value for a user
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/UserAttribute'
+                required:
+                  - data
+      operationId: get-userattribute-for-user
+      description: Get the value of a user attribute for a given user
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: user
+          description: 'user identifier (email, external ID)'
+    post:
+      summary: Set a user attribute value for a user
+      operationId: set-userattribute-for-user
+      responses:
+        '200':
+          description: OK
+      description: Set the value of a user attribute for a given user
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              type: object
+      parameters: []
+  /messaging:
+    post:
+      summary: Send message
+      operationId: message-send
+      responses:
+        '200':
+          description: OK
+      description: Send a message to a given user
+components:
+  schemas:
+    Message:
+      title: Message
+      type: object
+      description: Message
+      properties:
+        id:
+          type: string
+          pattern: ^\d+$
+        type:
+          type: string
+          pattern: message
+        attributes:
+          type: object
+          required:
+            - title
+          properties:
+            title:
+              type: string
+      required:
+        - id
+        - type
+        - attributes
+    UserAttribute:
+      title: UserAttribute
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          pattern: userattribute
+        attributes:
+          type: object
+          required:
+            - name
+          properties:
+            name:
+              type: string
+      required:
+        - id
+        - type
+        - attributes
+      description: User attribute
+  securitySchemes: {}
