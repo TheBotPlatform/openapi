@@ -23,7 +23,14 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/Message'
-              examples: {}
+              examples:
+                example-2:
+                  value:
+                    data:
+                      - id: string
+                        type: string
+                        attributes:
+                          title: string
       operationId: get-bot-messages
       description: List messages for a bot identified by botID
       parameters: []
