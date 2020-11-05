@@ -119,6 +119,19 @@ paths:
         '200':
           description: OK
       description: Send a message to a given user
+  '/test/{testid}':
+    parameters:
+      - schema:
+          type: string
+        name: testid
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-test-testid
+      description: purpose is to test MA can push!
 components:
   schemas:
     Message:
