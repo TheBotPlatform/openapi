@@ -146,9 +146,11 @@ components:
     UserAttribute:
       title: UserAttribute
       type: object
+      description: User attribute
       properties:
         id:
           type: string
+          format: uuid
         type:
           type: string
           pattern: userattribute
@@ -163,5 +165,4 @@ components:
         - id
         - type
         - attributes
-      description: User attribute
   securitySchemes: {}
