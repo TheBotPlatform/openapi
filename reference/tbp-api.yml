@@ -128,16 +128,16 @@ components:
       properties:
         id:
           type: string
-          pattern: ^\d+$
+          format: uuid
         type:
           type: string
           pattern: message
         attributes:
           type: object
           required:
-            - title
+            - name
           properties:
-            title:
+            name:
               type: string
       required:
         - id
