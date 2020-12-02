@@ -30,6 +30,7 @@ paths:
     parameters:
       - schema:
           type: string
+          format: uuid
         name: botID
         in: path
         required: true
@@ -37,6 +38,7 @@ paths:
     parameters:
       - schema:
           type: string
+          format: uuid
         name: botID
         in: path
         required: true
@@ -67,11 +69,13 @@ paths:
     parameters:
       - schema:
           type: string
+          format: uuid
         name: botID
         in: path
         required: true
       - schema:
           type: string
+          format: uuid
         name: userattributeID
         in: path
         required: true
@@ -119,6 +123,48 @@ paths:
         '200':
           description: OK
       description: Send a message to a given user
+  '/bots/{botID}/users/{userID}/state/{userAttributeID}':
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: botID
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: userID
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: userAttributeID
+        in: path
+        required: true
+    patch:
+      summary: ''
+      operationId: patch-bots-botID-users-userID-state-userAttributeId
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  value:
+                    type: string
+      description: '#WIP'
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              type: object
+              properties:
+                value:
+                  type: string
+              required:
+                - value
 components:
   schemas:
     Message:
