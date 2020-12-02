@@ -148,12 +148,14 @@ paths:
         '200':
           description: OK
           content:
-            application/json:
+            application/vnd.api+json:
               schema:
                 type: object
                 properties:
                   value:
                     type: string
+                required:
+                  - value
       description: '#WIP'
       requestBody:
         content:
