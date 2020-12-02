@@ -148,7 +148,7 @@ paths:
         '200':
           description: OK
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 type: object
                 properties:
@@ -159,7 +159,7 @@ paths:
       description: '#WIP'
       requestBody:
         content:
-          application/vnd.api+json:
+          application/json:
             schema:
               type: object
               properties:
