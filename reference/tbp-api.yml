@@ -237,7 +237,13 @@ components:
     NewActivity:
       title: NewActivity
       type: object
-      x-examples: {}
+      x-examples:
+        Typical request:
+          type: activities
+          attributes:
+            recipient: michael@customersupportbots.com
+            from: dee192b0-275e-44a2-9c77-32b75da2f26f
+            message: 3eb7c4fd-0d67-442a-a08d-929546df1ebe
       properties:
         type:
           type: string
@@ -274,11 +280,11 @@ components:
             - id
         - $ref: '#/components/schemas/NewActivity'
       x-examples:
-        example-1:
+        Typical response:
           id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
           type: activities
           attributes:
-            recipient: string
+            recipient: michael@customersupportbots.com
             from: dee192b0-275e-44a2-9c77-32b75da2f26f
             message: 3eb7c4fd-0d67-442a-a08d-929546df1ebe
   securitySchemes: {}
