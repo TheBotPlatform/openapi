@@ -43,13 +43,16 @@ paths:
         in: path
         required: true
     get:
-      summary: List user attributes for bot or user
+      summary: Bot user attribute list
       tags: []
+      operationId: get-bot-userattributes
+      description: List user attributes for a bot
+      parameters: []
       responses:
         '200':
           description: OK
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 type: object
                 properties:
@@ -57,14 +60,44 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/UserAttribute'
-      operationId: get-bot-userattributes
-      description: 'List user attributes for a bot identified by botID, optionally scoped to a given userID'
-      parameters:
-        - schema:
-            type: string
-          in: query
-          name: user
-          description: user identifier (email or external ID)
+              examples: {}
+    post:
+      summary: Bot user attribute create
+      operationId: create-bot-userattribute
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/UserAttribute'
+              examples:
+                Typical response body:
+                  value:
+                    data:
+                      id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+                      type: userattributes
+                      attributes:
+                        name: favourite fruit
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  $ref: '#/components/schemas/NewUserAttribute'
+            examples:
+              Typical request body:
+                value:
+                  data:
+                    type: userattributes
+                    attributes:
+                      name: favourite fruit
+      description: Create user attribute for a bot
   '/bots/{botID}/userattributes/{userattributeID}':
     parameters:
       - schema:
@@ -193,15 +226,26 @@ components:
         - attributes
     UserAttribute:
       title: UserAttribute
-      type: object
       description: User attribute
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+          required:
+            - id
+        - $ref: '#/components/schemas/NewUserAttribute'
+      x-examples: {}
+    NewUserAttribute:
+      title: NewUserAttribute
+      type: object
+      x-examples: {}
       properties:
-        id:
-          type: string
-          format: uuid
         type:
           type: string
-          pattern: userattribute
+          enum:
+            - userattributes
         attributes:
           type: object
           required:
@@ -209,8 +253,9 @@ components:
           properties:
             name:
               type: string
+            is_pii:
+              type: boolean
       required:
-        - id
         - type
         - attributes
   securitySchemes: {}
