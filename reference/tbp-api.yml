@@ -148,14 +148,33 @@ paths:
             schema:
               type: object
       parameters: []
-  /messaging:
+  /activity:
     post:
-      summary: Send message
-      operationId: message-send
+      summary: Create activity
+      operationId: activity-create
       responses:
-        '200':
-          description: OK
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Activity'
+              examples: {}
       description: Send a message to a given user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  $ref: '#/components/schemas/NewActivity'
+            examples: {}
+        description: ''
+    parameters: []
   '/bots/{botID}/users/{userID}/state/{userAttributeID}':
     parameters:
       - schema:
@@ -224,6 +243,7 @@ components:
         - id
         - type
         - attributes
+      x-examples: {}
     UserAttribute:
       title: UserAttribute
       description: User attribute
@@ -258,4 +278,57 @@ components:
       required:
         - type
         - attributes
+    NewActivity:
+      title: NewActivity
+      type: object
+      x-examples:
+        Typical request:
+          type: activities
+          attributes:
+            recipient: michael@customersupportbots.com
+            from: dee192b0-275e-44a2-9c77-32b75da2f26f
+            message: 3eb7c4fd-0d67-442a-a08d-929546df1ebe
+      properties:
+        type:
+          type: string
+          enum:
+            - activities
+          default: activities
+        attributes:
+          type: object
+          required:
+            - recipient
+            - from
+            - message
+          properties:
+            recipient:
+              type: string
+            from:
+              type: string
+              format: uuid
+            message:
+              type: string
+              format: uuid
+      required:
+        - type
+        - attributes
+    Activity:
+      title: Activity
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+          required:
+            - id
+        - $ref: '#/components/schemas/NewActivity'
+      x-examples:
+        Typical response:
+          id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+          type: activities
+          attributes:
+            recipient: michael@customersupportbots.com
+            from: dee192b0-275e-44a2-9c77-32b75da2f26f
+            message: 3eb7c4fd-0d67-442a-a08d-929546df1ebe
   securitySchemes: {}
