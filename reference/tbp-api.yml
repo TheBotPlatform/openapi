@@ -15,7 +15,7 @@ paths:
         '200':
           description: OK
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 type: object
                 properties:
@@ -23,7 +23,8 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/Message'
-              examples: {}
+                required:
+                  - data
       operationId: get-bot-messages
       description: List messages for a bot identified by botID
       parameters: []
@@ -60,6 +61,8 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/UserAttribute'
+                required:
+                  - data
               examples: {}
     post:
       summary: Bot user attribute create
@@ -119,7 +122,7 @@ paths:
         '200':
           description: OK
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 type: object
                 properties:
@@ -219,19 +222,42 @@ paths:
                   type: string
               required:
                 - value
+  /bots:
+    get:
+      summary: Bot list
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Bot'
+                required:
+                  - data
+      operationId: bot-list
+      description: Grabs a list of bots for the authenticated token (constrainted by the bots selected during consent)
+    parameters: []
 components:
   schemas:
     Message:
       title: Message
       type: object
       description: Message
+      x-examples: {}
       properties:
         id:
           type: string
           format: uuid
         type:
           type: string
-          pattern: message
+          enum:
+            - message
         attributes:
           type: object
           required:
@@ -243,7 +269,6 @@ components:
         - id
         - type
         - attributes
-      x-examples: {}
     UserAttribute:
       title: UserAttribute
       description: User attribute
@@ -265,7 +290,7 @@ components:
         type:
           type: string
           enum:
-            - userattributes
+            - userattribute
         attributes:
           type: object
           required:
@@ -331,4 +356,28 @@ components:
             recipient: michael@customersupportbots.com
             from: dee192b0-275e-44a2-9c77-32b75da2f26f
             message: 3eb7c4fd-0d67-442a-a08d-929546df1ebe
+    Bot:
+      title: Bot
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        type:
+          type: string
+          enum:
+            - bot
+        attributes:
+          type: object
+          required:
+            - name
+          properties:
+            name:
+              type: string
+      required:
+        - id
+        - type
+        - attributes
+      description: Bot
+      x-examples: {}
   securitySchemes: {}
