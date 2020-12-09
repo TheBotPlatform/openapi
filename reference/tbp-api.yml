@@ -243,6 +243,45 @@ paths:
       operationId: bot-list
       description: Grabs a list of bots for the authenticated token (constrainted by the bots selected during consent)
     parameters: []
+  '/bots/{botID}/analytics':
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: botID
+        in: path
+        required: true
+    get:
+      summary: Bot analytics
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  data:
+                    type: array
+                    uniqueItems: false
+                    maxItems: 7
+                    minItems: 5
+                    items:
+                      $ref: '#/components/schemas/Metric'
+                required:
+                  - data
+              examples: {}
+      operationId: get-bot-analytics
+      parameters:
+        - schema:
+            type: string
+            format: date
+            example: '2020-11-21'
+          in: query
+          name: date
+          allowEmptyValue: true
 components:
   schemas:
     Message:
@@ -380,4 +419,43 @@ components:
         - attributes
       description: Bot
       x-examples: {}
+    Metric:
+      title: Metric
+      type: object
+      x-examples:
+        Typical metric:
+          id: ACTIVE_PEOPLE
+          type: metric
+          attributes:
+            value: 1337
+            title: Active people
+      properties:
+        id:
+          type: string
+          enum:
+            - ACTIVE_PEOPLE
+            - NEW_VISITORS
+            - UNIQUE_VISITORS
+            - SUBSCRIBERS
+            - UNSUBSCRIBES
+            - TOTAL_MESSAGES_SENT
+            - ENGAGEMENT_PER_USER
+        type:
+          type: string
+          enum:
+            - metric
+        attributes:
+          type: object
+          required:
+            - value
+            - title
+          properties:
+            value:
+              type: number
+            title:
+              type: string
+      required:
+        - id
+        - type
+        - attributes
   securitySchemes: {}
