@@ -269,6 +269,7 @@ paths:
           in: query
           name: date
           allowEmptyValue: true
+          required: true
 components:
   schemas:
     Message:
@@ -409,13 +410,7 @@ components:
     Metric:
       title: Metric
       type: object
-      x-examples:
-        Typical metric:
-          id: ACTIVE_PEOPLE
-          type: metric
-          attributes:
-            value: 1337
-            title: Active people
+      x-examples: {}
       properties:
         id:
           type: string
@@ -436,11 +431,15 @@ components:
           required:
             - value
             - title
+            - date
           properties:
             value:
               type: number
             title:
               type: string
+            date:
+              type: string
+              format: date
       required:
         - id
         - type
