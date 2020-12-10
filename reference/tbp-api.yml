@@ -268,7 +268,6 @@ paths:
             example: '2020-11-21'
           in: query
           name: date
-          allowEmptyValue: true
           required: true
 components:
   schemas:
