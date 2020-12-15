@@ -152,8 +152,10 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/Activity'
+                required:
+                  - data
               examples: {}
-      description: Send a message to a given user
+      description: Send a CMS message to a given user
       requestBody:
         content:
           application/json:
@@ -162,6 +164,8 @@ paths:
               properties:
                 data:
                   $ref: '#/components/schemas/NewActivity'
+              required:
+                - data
             examples: {}
         description: ''
     parameters: []
@@ -269,6 +273,36 @@ paths:
           in: query
           name: date
           required: true
+      description: Return top-line analytics for a given date
+  /activity/external:
+    post:
+      summary: ''
+      operationId: activity-external-create
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/ExternalActivity'
+                required:
+                  - data
+              examples: {}
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  $ref: '#/components/schemas/NewExternalActivity'
+              required:
+                - data
+            examples: {}
+      description: Send a raw payload message to a given user
 components:
   schemas:
     Message:
@@ -332,19 +366,13 @@ components:
     NewActivity:
       title: NewActivity
       type: object
-      x-examples:
-        Typical request:
-          type: activities
-          attributes:
-            recipient: michael@customersupportbots.com
-            from: dee192b0-275e-44a2-9c77-32b75da2f26f
-            message: 3eb7c4fd-0d67-442a-a08d-929546df1ebe
+      x-examples: {}
       properties:
         type:
           type: string
-          enum:
-            - activities
           default: activities
+          enum:
+            - activity
         attributes:
           type: object
           required:
@@ -374,14 +402,7 @@ components:
           required:
             - id
         - $ref: '#/components/schemas/NewActivity'
-      x-examples:
-        Typical response:
-          id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
-          type: activities
-          attributes:
-            recipient: michael@customersupportbots.com
-            from: dee192b0-275e-44a2-9c77-32b75da2f26f
-            message: 3eb7c4fd-0d67-442a-a08d-929546df1ebe
+      x-examples: {}
     Bot:
       title: Bot
       type: object
@@ -443,4 +464,43 @@ components:
         - id
         - type
         - attributes
+    NewExternalActivity:
+      title: NewExternalActivity
+      type: object
+      x-examples: {}
+      properties:
+        type:
+          type: string
+          enum:
+            - external-activity
+        attributes:
+          type: object
+          required:
+            - recipient
+            - from
+            - messages
+          properties:
+            recipient:
+              type: string
+            from:
+              type: string
+              format: uuid
+            messages:
+              type: array
+              items: {}
+      required:
+        - type
+        - attributes
+    ExternalActivity:
+      title: ExternalActivity
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+          required:
+            - id
+        - $ref: '#/components/schemas/NewExternalActivity'
+      x-examples: {}
   securitySchemes: {}
