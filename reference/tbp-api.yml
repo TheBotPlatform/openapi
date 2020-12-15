@@ -351,8 +351,13 @@ components:
                         title:
                           type: string
                           example: Click me to start
+                        url:
+                          type: string
+                          format: uri
+                          description: required if type=open_url
                         actions:
                           type: array
+                          description: required if type=postback
                           items:
                             type: object
                             properties:
