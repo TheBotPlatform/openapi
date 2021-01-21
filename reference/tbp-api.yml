@@ -7,7 +7,7 @@ info:
 servers:
   - url: 'http://localhost:3000'
 paths:
-  '/bots/{botID}/messages':
+  /messages:
     get:
       summary: List messages
       tags: []
@@ -28,13 +28,7 @@ paths:
       operationId: get-bot-messages
       description: List messages for a bot identified by botID
       parameters: []
-    parameters:
-      - schema:
-          type: string
-          format: uuid
-        name: botID
-        in: path
-        required: true
+    parameters: []
   /userattributes:
     parameters: []
     get:
@@ -408,30 +402,6 @@ components:
           required:
             - id
         - $ref: '#/components/schemas/NewActivity'
-      x-examples: {}
-    Bot:
-      title: Bot
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        type:
-          type: string
-          enum:
-            - bot
-        attributes:
-          type: object
-          required:
-            - name
-          properties:
-            name:
-              type: string
-      required:
-        - id
-        - type
-        - attributes
-      description: Bot
       x-examples: {}
     Metric:
       title: Metric
