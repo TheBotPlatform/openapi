@@ -35,14 +35,8 @@ paths:
         name: botID
         in: path
         required: true
-  '/bots/{botID}/userattributes':
-    parameters:
-      - schema:
-          type: string
-          format: uuid
-        name: botID
-        in: path
-        required: true
+  /userattributes:
+    parameters: []
     get:
       summary: Bot user attribute list
       tags: []
@@ -88,14 +82,8 @@ paths:
                   $ref: '#/components/schemas/NewUserAttribute'
             examples: {}
       description: Create user attribute for a bot
-  '/bots/{botID}/userattributes/{userattributeID}':
+  '/userattributes/{userattributeID}':
     parameters:
-      - schema:
-          type: string
-          format: uuid
-        name: botID
-        in: path
-        required: true
       - schema:
           type: string
           format: uuid
@@ -169,14 +157,8 @@ paths:
             examples: {}
         description: ''
     parameters: []
-  '/bots/{botID}/users/{userID}/state/{userAttributeID}':
+  '/users/{userID}/state/{userAttributeID}':
     parameters:
-      - schema:
-          type: string
-          format: uuid
-        name: botID
-        in: path
-        required: true
       - schema:
           type: string
         name: userID
@@ -213,35 +195,8 @@ paths:
                   type: string
               required:
                 - value
-  /bots:
-    get:
-      summary: Bot list
-      tags: []
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Bot'
-                required:
-                  - data
-      operationId: bot-list
-      description: Grabs a list of bots for the authenticated token (constrainted by the bots selected during consent)
+  /analytics:
     parameters: []
-  '/bots/{botID}/analytics':
-    parameters:
-      - schema:
-          type: string
-          format: uuid
-        name: botID
-        in: path
-        required: true
     get:
       summary: Bot analytics
       tags: []
