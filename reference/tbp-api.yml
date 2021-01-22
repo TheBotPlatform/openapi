@@ -546,9 +546,11 @@ components:
       properties:
         status:
           type: string
+        title:
+          type: string
         detail:
           type: string
       required:
         - status
-        - detail
+        - title
   securitySchemes: {}
