@@ -25,6 +25,24 @@ paths:
                       $ref: '#/components/schemas/Message'
                 required:
                   - data
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
       operationId: get-bot-messages
       description: List messages for a bot identified by botID
       parameters: []
@@ -52,6 +70,24 @@ paths:
                 required:
                   - data
               examples: {}
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
     post:
       summary: Bot user attribute create
       operationId: create-bot-userattribute
@@ -66,6 +102,13 @@ paths:
                   data:
                     $ref: '#/components/schemas/UserAttribute'
               examples: {}
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
       requestBody:
         content:
           application/json:
@@ -113,6 +156,10 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
       description: Set the value of a user attribute for a given user
       requestBody:
         content:
@@ -213,6 +260,12 @@ paths:
                 required:
                   - data
               examples: {}
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
       operationId: get-bot-analytics
       parameters:
         - schema:
@@ -479,4 +532,23 @@ components:
             - id
         - $ref: '#/components/schemas/NewExternalActivity'
       x-examples: {}
+    Errors:
+      title: Errors
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+    Error:
+      title: Error
+      type: object
+      properties:
+        status:
+          type: string
+        detail:
+          type: string
+      required:
+        - status
+        - detail
   securitySchemes: {}
