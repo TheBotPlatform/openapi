@@ -430,14 +430,10 @@ components:
           type: object
           required:
             - recipient
-            - from
             - message
           properties:
             recipient:
               type: string
-            from:
-              type: string
-              format: uuid
             message:
               type: string
               format: uuid
@@ -506,14 +502,10 @@ components:
           type: object
           required:
             - recipient
-            - from
             - messages
           properties:
             recipient:
               type: string
-            from:
-              type: string
-              format: uuid
             messages:
               type: array
               items: {}
