@@ -7,7 +7,7 @@ info:
 servers:
   - url: 'http://localhost:3000'
 paths:
-  '/bots/{botID}/messages':
+  /messages:
     get:
       summary: List messages
       tags: []
@@ -25,24 +25,30 @@ paths:
                       $ref: '#/components/schemas/Message'
                 required:
                   - data
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
       operationId: get-bot-messages
       description: List messages for a bot identified by botID
       parameters: []
-    parameters:
-      - schema:
-          type: string
-          format: uuid
-        name: botID
-        in: path
-        required: true
-  '/bots/{botID}/userattributes':
-    parameters:
-      - schema:
-          type: string
-          format: uuid
-        name: botID
-        in: path
-        required: true
+    parameters: []
+  /userattributes:
+    parameters: []
     get:
       summary: Bot user attribute list
       tags: []
@@ -64,6 +70,24 @@ paths:
                 required:
                   - data
               examples: {}
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
     post:
       summary: Bot user attribute create
       operationId: create-bot-userattribute
@@ -78,6 +102,13 @@ paths:
                   data:
                     $ref: '#/components/schemas/UserAttribute'
               examples: {}
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
       requestBody:
         content:
           application/json:
@@ -88,14 +119,8 @@ paths:
                   $ref: '#/components/schemas/NewUserAttribute'
             examples: {}
       description: Create user attribute for a bot
-  '/bots/{botID}/userattributes/{userattributeID}':
+  '/userattributes/{userattributeID}':
     parameters:
-      - schema:
-          type: string
-          format: uuid
-        name: botID
-        in: path
-        required: true
       - schema:
           type: string
           format: uuid
@@ -131,6 +156,10 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
       description: Set the value of a user attribute for a given user
       requestBody:
         content:
@@ -169,14 +198,8 @@ paths:
             examples: {}
         description: ''
     parameters: []
-  '/bots/{botID}/users/{userID}/state/{userAttributeID}':
+  '/users/{userID}/state/{userAttributeID}':
     parameters:
-      - schema:
-          type: string
-          format: uuid
-        name: botID
-        in: path
-        required: true
       - schema:
           type: string
         name: userID
@@ -213,35 +236,8 @@ paths:
                   type: string
               required:
                 - value
-  /bots:
-    get:
-      summary: Bot list
-      tags: []
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Bot'
-                required:
-                  - data
-      operationId: bot-list
-      description: Grabs a list of bots for the authenticated token (constrainted by the bots selected during consent)
+  /analytics:
     parameters: []
-  '/bots/{botID}/analytics':
-    parameters:
-      - schema:
-          type: string
-          format: uuid
-        name: botID
-        in: path
-        required: true
     get:
       summary: Bot analytics
       tags: []
@@ -264,6 +260,12 @@ paths:
                 required:
                   - data
               examples: {}
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
       operationId: get-bot-analytics
       parameters:
         - schema:
@@ -428,14 +430,10 @@ components:
           type: object
           required:
             - recipient
-            - from
             - message
           properties:
             recipient:
               type: string
-            from:
-              type: string
-              format: uuid
             message:
               type: string
               format: uuid
@@ -453,30 +451,6 @@ components:
           required:
             - id
         - $ref: '#/components/schemas/NewActivity'
-      x-examples: {}
-    Bot:
-      title: Bot
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        type:
-          type: string
-          enum:
-            - bot
-        attributes:
-          type: object
-          required:
-            - name
-          properties:
-            name:
-              type: string
-      required:
-        - id
-        - type
-        - attributes
-      description: Bot
       x-examples: {}
     Metric:
       title: Metric
@@ -528,14 +502,10 @@ components:
           type: object
           required:
             - recipient
-            - from
             - messages
           properties:
             recipient:
               type: string
-            from:
-              type: string
-              format: uuid
             messages:
               type: array
               items: {}
@@ -554,4 +524,25 @@ components:
             - id
         - $ref: '#/components/schemas/NewExternalActivity'
       x-examples: {}
+    Errors:
+      title: Errors
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+    Error:
+      title: Error
+      type: object
+      properties:
+        status:
+          type: string
+        title:
+          type: string
+        detail:
+          type: string
+      required:
+        - status
+        - title
   securitySchemes: {}
