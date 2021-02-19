@@ -25,6 +25,7 @@ paths:
                       $ref: '#/components/schemas/Message'
                 required:
                   - data
+              examples: {}
         '401':
           description: Unauthorized
           content:
@@ -229,7 +230,16 @@ paths:
               properties:
                 data:
                   $ref: '#/components/schemas/User'
-            examples: {}
+            examples:
+              example-1:
+                value:
+                  data:
+                    type: user
+                    attributes:
+                      state:
+                        - userAttribute:
+                            id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+                          value: string
   /analytics:
     parameters: []
     get:
@@ -556,7 +566,7 @@ components:
               items:
                 type: object
                 properties:
-                  userAttribute:
+                  userattribute:
                     type: object
                     properties:
                       id:
