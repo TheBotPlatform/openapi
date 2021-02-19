@@ -544,14 +544,7 @@ components:
     User:
       title: User
       type: object
-      x-examples:
-        example-1:
-          type: user
-          attributes:
-            state:
-              - userattribute:
-                  id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
-                value: string
+      x-examples: {}
       properties:
         type:
           type: string
