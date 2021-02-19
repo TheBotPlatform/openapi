@@ -230,16 +230,7 @@ paths:
               properties:
                 data:
                   $ref: '#/components/schemas/User'
-            examples:
-              example-1:
-                value:
-                  data:
-                    type: user
-                    attributes:
-                      state:
-                        - userAttribute:
-                            id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
-                          value: string
+            examples: {}
   /analytics:
     parameters: []
     get:
@@ -552,7 +543,14 @@ components:
     User:
       title: User
       type: object
-      x-examples: {}
+      x-examples:
+        example-1:
+          type: user
+          attributes:
+            state:
+              - userattribute:
+                  id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+                value: string
       properties:
         type:
           type: string
