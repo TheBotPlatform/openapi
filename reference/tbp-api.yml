@@ -7,7 +7,7 @@ info:
 servers:
   - url: 'http://localhost:3000'
 paths:
-  /messages:
+  /v1.0/messages:
     get:
       summary: List messages
       tags: []
@@ -48,7 +48,7 @@ paths:
       description: List messages for a bot identified by botID
       parameters: []
     parameters: []
-  /userattributes:
+  /v1.0/userattributes:
     parameters: []
     get:
       summary: Bot user attribute list
@@ -120,7 +120,7 @@ paths:
                   $ref: '#/components/schemas/NewUserAttribute'
             examples: {}
       description: Create user attribute for a bot
-  '/userattributes/{userattributeID}':
+  '/v1.0/userattributes/{userattributeID}':
     parameters:
       - schema:
           type: string
@@ -168,7 +168,7 @@ paths:
             schema:
               type: object
       parameters: []
-  /activity:
+  /v1.0/activity:
     post:
       summary: Create activity
       operationId: activity-create
@@ -199,7 +199,7 @@ paths:
             examples: {}
         description: ''
     parameters: []
-  '/users/{userID}':
+  '/v1.0/users/{userID}':
     parameters:
       - schema:
           type: string
@@ -231,7 +231,7 @@ paths:
                 data:
                   $ref: '#/components/schemas/User'
             examples: {}
-  /analytics:
+  /v1.0/analytics:
     parameters: []
     get:
       summary: Bot analytics
@@ -271,7 +271,7 @@ paths:
           name: date
           required: true
       description: Return top-line analytics for a given date
-  /activity/external:
+  /v1.0/activity/external:
     post:
       summary: ''
       operationId: activity-external-create
@@ -300,6 +300,7 @@ paths:
                 - data
             examples: {}
       description: Send a raw payload message to a given user
+    parameters: []
 components:
   schemas:
     Message:
