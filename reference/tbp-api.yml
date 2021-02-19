@@ -25,6 +25,8 @@ paths:
                       $ref: '#/components/schemas/Message'
                 required:
                   - data
+        '201':
+          description: Created
         '401':
           description: Unauthorized
           content:
@@ -198,16 +200,11 @@ paths:
             examples: {}
         description: ''
     parameters: []
-  '/users/{userID}/state/{userAttributeID}':
+  '/users/{userID}':
     parameters:
       - schema:
           type: string
         name: userID
-        in: path
-        required: true
-      - schema:
-          type: string
-        name: userAttributeID
         in: path
         required: true
     patch:
@@ -221,21 +218,20 @@ paths:
               schema:
                 type: object
                 properties:
-                  value:
-                    type: string
+                  data:
+                    $ref: '#/components/schemas/User'
                 required:
-                  - value
-      description: '#WIP'
+                  - data
+      description: ''
       requestBody:
         content:
           application/json:
             schema:
               type: object
               properties:
-                value:
-                  type: string
-              required:
-                - value
+                data:
+                  $ref: '#/components/schemas/User'
+            examples: {}
   /analytics:
     parameters: []
     get:
@@ -545,4 +541,32 @@ components:
       required:
         - status
         - title
+    User:
+      title: User
+      type: object
+      x-examples: {}
+      properties:
+        type:
+          type: string
+          enum:
+            - user
+        attributes:
+          type: object
+          properties:
+            state:
+              type: array
+              items:
+                type: object
+                properties:
+                  userAttribute:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        format: uuid
+                  value:
+                    type: string
+      required:
+        - type
   securitySchemes: {}
+  responses: {}
