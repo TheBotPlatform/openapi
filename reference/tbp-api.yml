@@ -208,7 +208,7 @@ paths:
         required: true
     patch:
       summary: ''
-      operationId: patch-bots-botID-users-userID-state-userAttributeId
+      operationId: update-user-data
       responses:
         '200':
           description: OK
@@ -221,7 +221,7 @@ paths:
                     $ref: '#/components/schemas/User'
                 required:
                   - data
-      description: ''
+      description: Update user related data
       requestBody:
         content:
           application/json:
