@@ -7,7 +7,7 @@ info:
 servers:
   - url: 'http://localhost:3000'
 paths:
-  /messages:
+  /v1.0/messages:
     get:
       summary: List messages
       tags: []
@@ -25,6 +25,7 @@ paths:
                       $ref: '#/components/schemas/Message'
                 required:
                   - data
+              examples: {}
         '401':
           description: Unauthorized
           content:
@@ -47,7 +48,7 @@ paths:
       description: List messages for a bot identified by botID
       parameters: []
     parameters: []
-  /userattributes:
+  /v1.0/userattributes:
     parameters: []
     get:
       summary: Bot user attribute list
@@ -119,7 +120,7 @@ paths:
                   $ref: '#/components/schemas/NewUserAttribute'
             examples: {}
       description: Create user attribute for a bot
-  '/userattributes/{userattributeID}':
+  '/v1.0/userattributes/{userattributeID}':
     parameters:
       - schema:
           type: string
@@ -167,7 +168,7 @@ paths:
             schema:
               type: object
       parameters: []
-  /activity:
+  /v1.0/activity:
     post:
       summary: Create activity
       operationId: activity-create
@@ -198,21 +199,16 @@ paths:
             examples: {}
         description: ''
     parameters: []
-  '/users/{userID}/state/{userAttributeID}':
+  '/v1.0/users/{userID}':
     parameters:
       - schema:
           type: string
         name: userID
         in: path
         required: true
-      - schema:
-          type: string
-        name: userAttributeID
-        in: path
-        required: true
     patch:
       summary: ''
-      operationId: patch-bots-botID-users-userID-state-userAttributeId
+      operationId: update-user-data
       responses:
         '200':
           description: OK
@@ -221,22 +217,21 @@ paths:
               schema:
                 type: object
                 properties:
-                  value:
-                    type: string
+                  data:
+                    $ref: '#/components/schemas/User'
                 required:
-                  - value
-      description: '#WIP'
+                  - data
+      description: Update user related data
       requestBody:
         content:
           application/json:
             schema:
               type: object
               properties:
-                value:
-                  type: string
-              required:
-                - value
-  /analytics:
+                data:
+                  $ref: '#/components/schemas/User'
+            examples: {}
+  /v1.0/analytics:
     parameters: []
     get:
       summary: Bot analytics
@@ -276,7 +271,7 @@ paths:
           name: date
           required: true
       description: Return top-line analytics for a given date
-  /activity/external:
+  /v1.0/activity/external:
     post:
       summary: ''
       operationId: activity-external-create
@@ -305,6 +300,7 @@ paths:
                 - data
             examples: {}
       description: Send a raw payload message to a given user
+    parameters: []
 components:
   schemas:
     Message:
@@ -545,4 +541,32 @@ components:
       required:
         - status
         - title
+    User:
+      title: User
+      type: object
+      x-examples: {}
+      properties:
+        type:
+          type: string
+          enum:
+            - user
+        attributes:
+          type: object
+          properties:
+            state:
+              type: array
+              items:
+                type: object
+                properties:
+                  userattribute:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        format: uuid
+                  value:
+                    type: string
+      required:
+        - type
   securitySchemes: {}
+  responses: {}
