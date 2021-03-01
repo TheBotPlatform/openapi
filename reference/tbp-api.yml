@@ -210,17 +210,8 @@ paths:
       summary: ''
       operationId: update-user-data
       responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    $ref: '#/components/schemas/User'
-                required:
-                  - data
+        '204':
+          description: No Content
       description: Update user related data
       requestBody:
         content:
