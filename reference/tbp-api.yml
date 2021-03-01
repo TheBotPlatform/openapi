@@ -419,7 +419,6 @@ components:
       properties:
         type:
           type: string
-          default: activities
           enum:
             - activity
         attributes:
