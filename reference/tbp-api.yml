@@ -431,8 +431,14 @@ components:
             recipient:
               type: string
             message:
-              type: string
               format: uuid
+              required:
+                - id
+              type: object
+              properties:
+                id:
+                  type: string
+                  format: uuid
       required:
         - type
         - attributes
