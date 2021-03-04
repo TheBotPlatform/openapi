@@ -3,9 +3,9 @@ info:
   title: TBP API
   version: '1.0'
   contact: {}
-  description: TBP Core API
+  description: TBP API
 servers:
-  - url: 'http://localhost:3000'
+  - url: 'https://api.thebotplatform.com'
 paths:
   /v1.0/messages:
     get:
@@ -564,5 +564,19 @@ components:
                     type: string
       required:
         - type
-  securitySchemes: {}
+  securitySchemes:
+    token:
+      type: oauth2
+      flows:
+        clientCredentials:
+          refreshUrl: 'https://api.thebotplatform.com/oauth2/token'
+          scopes: {}
+          tokenUrl: 'https://api.thebotplatform.com/oauth2/token'
+        authorizationCode:
+          authorizationUrl: 'https://api.thebotplatform.com/oauth2/auth'
+          tokenUrl: 'https://api.thebotplatform.com/oauth2/token'
+          refreshUrl: 'https://api.thebotplatform.com/oauth2/token'
+          scopes: {}
   responses: {}
+security:
+  - token: []
