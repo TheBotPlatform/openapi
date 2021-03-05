@@ -199,11 +199,11 @@ paths:
             examples: {}
         description: ''
     parameters: []
-  '/users/{userID}':
+  '/users/{user}':
     parameters:
       - schema:
           type: string
-        name: userID
+        name: user
         in: path
         required: true
         description: user id or email address
@@ -587,6 +587,7 @@ components:
           tokenUrl: 'https://api.thebotplatform.com/oauth2/token'
           refreshUrl: 'https://api.thebotplatform.com/oauth2/token'
           scopes: {}
+      description: ''
   responses: {}
 security:
   - token: []
