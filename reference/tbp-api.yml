@@ -206,6 +206,7 @@ paths:
         name: userID
         in: path
         required: true
+        description: user id or email address
     patch:
       summary: ''
       operationId: update-user-data
