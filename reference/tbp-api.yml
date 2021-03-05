@@ -5,9 +5,9 @@ info:
   contact: {}
   description: TBP API
 servers:
-  - url: 'https://api.thebotplatform.com'
+  - url: 'https://api.thebotplatform.com/v1.0'
 paths:
-  /v1.0/messages:
+  /messages:
     get:
       summary: List messages
       tags: []
@@ -48,7 +48,7 @@ paths:
       description: List messages for a bot identified by botID
       parameters: []
     parameters: []
-  /v1.0/userattributes:
+  /userattributes:
     parameters: []
     get:
       summary: Bot user attribute list
@@ -120,7 +120,7 @@ paths:
                   $ref: '#/components/schemas/NewUserAttribute'
             examples: {}
       description: Create user attribute for a bot
-  '/v1.0/userattributes/{userattributeID}':
+  '/userattributes/{userattributeID}':
     parameters:
       - schema:
           type: string
@@ -168,7 +168,7 @@ paths:
             schema:
               type: object
       parameters: []
-  /v1.0/activity:
+  /activity:
     post:
       summary: Create activity
       operationId: activity-create
@@ -199,7 +199,7 @@ paths:
             examples: {}
         description: ''
     parameters: []
-  '/v1.0/users/{userID}':
+  '/users/{userID}':
     parameters:
       - schema:
           type: string
@@ -222,7 +222,7 @@ paths:
                 data:
                   $ref: '#/components/schemas/User'
             examples: {}
-  /v1.0/analytics:
+  /analytics:
     parameters: []
     get:
       summary: Bot analytics
@@ -262,7 +262,7 @@ paths:
           name: date
           required: true
       description: Return top-line analytics for a given date
-  /v1.0/activity/external:
+  /activity/external:
     post:
       summary: ''
       operationId: activity-external-create
@@ -420,11 +420,12 @@ components:
           properties:
             recipient:
               type: string
+              description: email address or external id
             message:
               format: uuid
+              type: object
               required:
                 - id
-              type: object
               properties:
                 id:
                   type: string
@@ -540,7 +541,14 @@ components:
     User:
       title: User
       type: object
-      x-examples: {}
+      x-examples:
+        example-1:
+          type: user
+          attributes:
+            state:
+              - userattribute:
+                  id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+                value: string
       properties:
         type:
           type: string
@@ -560,6 +568,7 @@ components:
                       id:
                         type: string
                         format: uuid
+                        description: ''
                   value:
                     type: string
       required:
@@ -569,9 +578,9 @@ components:
       type: oauth2
       flows:
         clientCredentials:
+          tokenUrl: 'https://api.thebotplatform.com/oauth2/token'
           refreshUrl: 'https://api.thebotplatform.com/oauth2/token'
           scopes: {}
-          tokenUrl: 'https://api.thebotplatform.com/oauth2/token'
         authorizationCode:
           authorizationUrl: 'https://api.thebotplatform.com/oauth2/auth'
           tokenUrl: 'https://api.thebotplatform.com/oauth2/token'
