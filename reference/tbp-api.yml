@@ -170,7 +170,7 @@ paths:
       parameters: []
   /activity:
     post:
-      summary: Create activity
+      summary: Send a pre-defined message to a user
       operationId: activity-create
       responses:
         '201':
@@ -407,12 +407,21 @@ components:
     NewActivity:
       title: NewActivity
       type: object
-      x-examples: {}
+      x-examples:
+        example-1:
+          type: activity
+          attributes:
+            recipient: string
+            message:
+              id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
       properties:
         type:
           type: string
           enum:
             - activity
+          default: activity
+          example: activity
+          readOnly: true
         attributes:
           type: object
           required:
@@ -421,7 +430,7 @@ components:
           properties:
             recipient:
               type: string
-              description: email address or external id
+              description: the email address or id of the user you want to send the message to
             message:
               format: uuid
               type: object
@@ -431,6 +440,7 @@ components:
                 id:
                   type: string
                   format: uuid
+                  description: the id of the message you want to send
       required:
         - type
         - attributes
