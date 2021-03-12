@@ -7,6 +7,69 @@ info:
 servers:
   - url: 'https://api.thebotplatform.com/v1.0'
 paths:
+  /activity:
+    post:
+      summary: Send a pre-defined message to a user
+      operationId: activity-create
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Activity'
+                required:
+                  - data
+              examples: {}
+      description: Send a CMS message to a given user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  $ref: '#/components/schemas/NewActivity'
+              required:
+                - data
+            examples:
+              example-1:
+                value:
+                  data:
+                    type: activity
+                    attributes:
+                      recipient: string
+                      message:
+                        id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+        description: ''
+    parameters: []
+  '/users/{user}':
+    parameters:
+      - schema:
+          type: string
+        name: user
+        in: path
+        required: true
+        description: user id or email address
+    patch:
+      summary: ''
+      operationId: update-user-data
+      responses:
+        '204':
+          description: No Content
+      description: Update user related data
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  $ref: '#/components/schemas/User'
+            examples: {}
   /messages:
     get:
       summary: List messages
@@ -168,69 +231,8 @@ paths:
             schema:
               type: object
       parameters: []
-  /activity:
-    post:
-      summary: Send a pre-defined message to a user
-      operationId: activity-create
-      responses:
-        '201':
-          description: Created
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    $ref: '#/components/schemas/Activity'
-                required:
-                  - data
-              examples: {}
-      description: Send a CMS message to a given user
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                data:
-                  $ref: '#/components/schemas/NewActivity'
-              required:
-                - data
-            examples:
-              example-1:
-                value:
-                  data:
-                    type: activity
-                    attributes:
-                      recipient: string
-                      message:
-                        id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
-        description: ''
-    parameters: []
-  '/users/{user}':
-    parameters:
-      - schema:
-          type: string
-        name: user
-        in: path
-        required: true
-        description: user id or email address
-    patch:
-      summary: ''
-      operationId: update-user-data
-      responses:
-        '204':
-          description: No Content
-      description: Update user related data
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                data:
-                  $ref: '#/components/schemas/User'
-            examples: {}
+
+
   /analytics:
     parameters: []
     get:
