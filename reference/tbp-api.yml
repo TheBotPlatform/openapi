@@ -416,14 +416,12 @@ components:
       title: NewActivity
       type: object
       x-examples: {}
+      description: Used to send a message to a user
       properties:
         type:
           type: string
-          enum:
-            - activity
           default: activity
           example: activity
-          readOnly: true
         attributes:
           type: object
           required:
@@ -447,7 +445,6 @@ components:
       required:
         - type
         - attributes
-      description: Used to send a message to a user
     Activity:
       title: Activity
       allOf:
