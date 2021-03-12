@@ -196,7 +196,15 @@ paths:
                   $ref: '#/components/schemas/NewActivity'
               required:
                 - data
-            examples: {}
+            examples:
+              example-1:
+                value:
+                  data:
+                    type: activity
+                    attributes:
+                      recipient: string
+                      message:
+                        id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
         description: ''
     parameters: []
   '/users/{user}':
@@ -407,13 +415,7 @@ components:
     NewActivity:
       title: NewActivity
       type: object
-      x-examples:
-        example-1:
-          type: activity
-          attributes:
-            recipient: string
-            message:
-              id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+      x-examples: {}
       properties:
         type:
           type: string
@@ -431,6 +433,7 @@ components:
             recipient:
               type: string
               description: the email address or id of the user you want to send the message to
+              example: user@thebotplatform.com
             message:
               format: uuid
               type: object
@@ -444,6 +447,7 @@ components:
       required:
         - type
         - attributes
+      description: Used to send a message to a user
     Activity:
       title: Activity
       allOf:
