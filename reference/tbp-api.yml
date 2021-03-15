@@ -36,12 +36,12 @@ paths:
               required:
                 - data
             examples:
-              example-1:
+              base example:
                 value:
                   data:
                     type: activity
                     attributes:
-                      recipient: string
+                      recipient: hello@thebotplatform.com
                       message:
                         id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
         description: ''
@@ -50,10 +50,11 @@ paths:
     parameters:
       - schema:
           type: string
+          example: hello@thebotplatform.com
         name: user
         in: path
         required: true
-        description: user id or email address
+        description: email address or id
     patch:
       summary: Set multiple attributes on a user
       operationId: update-user-data
@@ -69,7 +70,20 @@ paths:
               properties:
                 data:
                   $ref: '#/components/schemas/User'
-            examples: {}
+            examples:
+              base example:
+                value:
+                  data:
+                    type: user
+                    attributes:
+                      state:
+                        - userattribute:
+                            id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+                          value: hello
+                        - userattribute:
+                            id: 124f6eca-6276-4993-bfeb-53cbbbba6f08
+                          value: world
+      parameters: []
   /messages:
     get:
       summary: List messages
@@ -566,6 +580,7 @@ components:
           type: string
           enum:
             - user
+          default: user
         attributes:
           type: object
           properties:
