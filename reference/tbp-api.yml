@@ -445,7 +445,8 @@ components:
             recipient:
               type: string
               description: the email address or id of the user you want to send the message to
-              example: user@thebotplatform.com
+              example: hello@thebotplatform.com
+              default: hello@thebotplatform.com
             message:
               format: uuid
               type: object
@@ -456,6 +457,7 @@ components:
                   type: string
                   format: uuid
                   description: the id of the message you want to send
+                  example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
       required:
         - type
         - attributes
