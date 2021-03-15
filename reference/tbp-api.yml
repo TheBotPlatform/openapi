@@ -441,6 +441,7 @@ components:
           required:
             - recipient
             - message
+          minProperties: 1
           properties:
             recipient:
               type: string
