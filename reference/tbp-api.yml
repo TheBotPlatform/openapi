@@ -55,12 +55,12 @@ paths:
         required: true
         description: user id or email address
     patch:
-      summary: ''
+      summary: Set multiple attributes on a user
       operationId: update-user-data
       responses:
         '204':
           description: No Content
-      description: Update user related data
+      description: Set multiple attributes on a user
       requestBody:
         content:
           application/json:
@@ -231,8 +231,6 @@ paths:
             schema:
               type: object
       parameters: []
-
-
   /analytics:
     parameters: []
     get:
