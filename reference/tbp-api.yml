@@ -429,7 +429,13 @@ components:
     NewActivity:
       title: NewActivity
       type: object
-      x-examples: {}
+      x-examples:
+        base example:
+          type: activity
+          attributes:
+            recipient: hello@thebotplatform.com
+            message:
+              id: 3fa85f64-5717-4562-b3fc-2c963f66afa6
       description: Used to send a message to a user
       properties:
         type:
