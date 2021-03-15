@@ -287,7 +287,7 @@ paths:
       description: Return top-line analytics for a given date
   /activity/external:
     post:
-      summary: ''
+      summary: Send a raw payload to a user
       operationId: activity-external-create
       responses:
         '201':
@@ -313,7 +313,12 @@ paths:
               required:
                 - data
             examples: {}
-      description: Send a raw payload message to a given user
+      description: |-
+        Send a raw payload message to a given user
+
+        Raw payloads can be found differently for each separate channel:
+        - [Workplace](https://developers.facebook.com/docs/messenger-platform/reference/send-api/#message)
+        - [Teams](https://docs.microsoft.com/en-us/graph/api/resources/chatmessage?view=graph-rest-beta)
     parameters: []
 components:
   schemas:
