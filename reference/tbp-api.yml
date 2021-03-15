@@ -467,10 +467,11 @@ components:
               example: hello@thebotplatform.com
               default: hello@thebotplatform.com
             message:
-              format: uuid
               type: object
+              format: uuid
               required:
                 - id
+              minProperties: 1
               properties:
                 id:
                   type: string
