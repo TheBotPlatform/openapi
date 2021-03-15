@@ -419,6 +419,8 @@ components:
           type: string
           enum:
             - userattribute
+          default: userattribute
+          minLength: 1
         attributes:
           type: object
           required:
@@ -426,11 +428,15 @@ components:
           properties:
             name:
               type: string
+              example: Attr1
+              minLength: 1
             is_pii:
               type: boolean
+              default: false
       required:
         - type
         - attributes
+      description: ''
     NewActivity:
       title: NewActivity
       type: object
