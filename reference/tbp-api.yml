@@ -478,6 +478,7 @@ components:
                   description: the id of the message you want to send
                   example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
                   default: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+                  minLength: 1
       required:
         - type
         - attributes
