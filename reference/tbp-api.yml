@@ -414,6 +414,7 @@ components:
       title: NewUserAttribute
       type: object
       x-examples: {}
+      description: ''
       properties:
         type:
           type: string
@@ -430,13 +431,13 @@ components:
               type: string
               example: Attr1
               minLength: 1
+              default: Attr1
             is_pii:
               type: boolean
               default: false
       required:
         - type
         - attributes
-      description: ''
     NewActivity:
       title: NewActivity
       type: object
@@ -455,10 +456,10 @@ components:
           example: activity
         attributes:
           type: object
+          minProperties: 1
           required:
             - recipient
             - message
-          minProperties: 1
           properties:
             recipient:
               type: string
@@ -476,6 +477,7 @@ components:
                   format: uuid
                   description: the id of the message you want to send
                   example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+                  default: 3fa85f64-5717-4562-b3fc-2c963f66afa6
       required:
         - type
         - attributes
