@@ -319,6 +319,8 @@ paths:
         Raw payloads can be found differently for each separate channel:
         - [Workplace](https://developers.facebook.com/docs/messenger-platform/reference/send-api/#message)
         - [Teams](https://docs.microsoft.com/en-us/graph/api/resources/chatmessage?view=graph-rest-beta)
+
+        One or many raw payloads can be used in the `messages` array
     parameters: []
 components:
   schemas:
