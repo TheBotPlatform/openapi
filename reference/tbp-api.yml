@@ -553,6 +553,11 @@ components:
               type: array
               items:
                 type: object
+                properties:
+                  text:
+                    type: string
+                    default: world
+                    example: world
       required:
         - type
         - attributes
