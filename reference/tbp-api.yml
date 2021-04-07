@@ -197,54 +197,6 @@ paths:
                   $ref: '#/components/schemas/NewUserAttribute'
             examples: {}
       description: Create user attribute for a bot
-  '/userattributes/{userattributeID}':
-    parameters:
-      - schema:
-          type: string
-          format: uuid
-        name: userattributeID
-        in: path
-        required: true
-    get:
-      summary: Get  user attribute value for a user
-      tags: []
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    $ref: '#/components/schemas/UserAttribute'
-                required:
-                  - data
-      operationId: get-userattribute-for-user
-      description: Get the value of a user attribute for a given user
-      parameters:
-        - schema:
-            type: string
-          in: query
-          name: user
-          description: 'user identifier (email, external ID)'
-    post:
-      summary: Set a user attribute value for a user
-      operationId: set-userattribute-for-user
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Errors'
-      description: Set the value of a user attribute for a given user
-      requestBody:
-        content:
-          application/vnd.api+json:
-            schema:
-              type: object
-      parameters: []
   /analytics:
     parameters: []
     get:
@@ -649,12 +601,11 @@ components:
   responses: {}
 security:
   - token: []
-x-samples-languages: [
-  'curl',
-  'node',
-  'php',
-  'csharp',
-  'python',
-  'java',
-  'go'
-]
+x-samples-languages:
+  - curl
+  - node
+  - php
+  - csharp
+  - python
+  - java
+  - go
