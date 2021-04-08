@@ -24,6 +24,8 @@ paths:
                 required:
                   - data
               examples: {}
+        '500':
+          description: Internal Server Error
       description: Send a CMS message to a given user
       requestBody:
         content:
@@ -61,6 +63,8 @@ paths:
       responses:
         '204':
           description: No Content
+        '500':
+          description: Internal Server Error
       description: Set multiple attributes on a user
       requestBody:
         content:
@@ -187,6 +191,8 @@ paths:
               schema:
                 type: object
                 properties: {}
+        '500':
+          description: Internal Server Error
       requestBody:
         content:
           application/json:
@@ -227,6 +233,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+        '500':
+          description: Internal Server Error
       operationId: get-bot-analytics
       parameters:
         - schema:
@@ -254,6 +262,8 @@ paths:
                 required:
                   - data
               examples: {}
+        '500':
+          description: Internal Server Error
       requestBody:
         content:
           application/json:
