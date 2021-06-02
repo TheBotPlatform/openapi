@@ -7,6 +7,131 @@ info:
 servers:
   - url: 'https://api.thebotplatform.com/v1.0'
 paths:
+  /interaction:
+    post:
+      summary: Headless interaction
+      operationId: interaction
+      responses:
+        '200':
+          $ref: '#/components/responses/InteractionReplyResponse'
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+      description: Facilitate "headless" interaction with the platform.  Use this endpoint if developing your own bot user interface.
+      parameters:
+        - schema:
+            type: string
+            enum:
+              - interaction.readwrite.all
+          in: header
+          name: x-ext-auth-scope
+          required: true
+          description: interaction.readwrite.all
+        - schema:
+            type: string
+          in: header
+          name: content-type
+          required: true
+          description: application/json
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                data:
+                  type: object
+                  required:
+                    - type
+                    - attributes
+                  additionalProperties: false
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                        - interaction
+                      readOnly: true
+                    attributes:
+                      type: object
+                      required:
+                        - user
+                        - input
+                      additionalProperties: false
+                      properties:
+                        user:
+                          type: object
+                          required:
+                            - id
+                          additionalProperties: false
+                          properties:
+                            id:
+                              type: string
+                              example: 2ca467cb-60d1-4880-a0cd-afe6f5edbf15
+                              readOnly: true
+                          readOnly: true
+                        input:
+                          type: string
+                          example: '__PAYLOAD__@BP:MESSAGE:789'
+                          description: 'Either a platform payload from a button, or free-text input, such as a keyword configured on the platform'
+                          readOnly: true
+                      readOnly: true
+                  readOnly: true
+              required:
+                - data
+              readOnly: true
+            examples:
+              Trigger start of bot:
+                value:
+                  data:
+                    type: interaction
+                    attributes:
+                      user:
+                        id: 2ca467cb-60d1-4880-a0cd-afe6f5edbf15
+                      input: __PAYLOAD__START
+              Button payload:
+                value:
+                  data:
+                    type: interaction
+                    attributes:
+                      user:
+                        id: 2ca467cb-60d1-4880-a0cd-afe6f5edbf15
+                      input: '__PAYLOAD__@BP:MESSAGE:789'
+              Typed input:
+                value:
+                  data:
+                    type: interaction
+                    attributes:
+                      user:
+                        id: 2ca467cb-60d1-4880-a0cd-afe6f5edbf15
+                      input: hello
+        description: ''
+  /interaction/user:
+    post:
+      summary: Create simple user ID
+      operationId: user
+      responses:
+        '200':
+          $ref: '#/components/responses/UserResponse'
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: x-ext-auth-scope
+          description: interaction.readwrite.all
+          required: true
+        - schema:
+            type: string
+          in: header
+          name: content-type
+          description: application/json
+          required: true
+      description: Create a simple user ID suitable for use with the Interaction endpoint
   /activity:
     post:
       summary: Send a pre-defined message to a user
@@ -286,6 +411,181 @@ paths:
     parameters: []
 components:
   schemas:
+    InteractionElementButton:
+      type: object
+      title: InteractionElementButton
+      x-examples: {}
+      additionalProperties: false
+      properties:
+        type:
+          type: string
+          enum:
+            - postback
+            - open_url
+          description: 'When used within InteractionTypeQuickReply, type=postback'
+          readOnly: true
+        title:
+          type: string
+          example: Click me
+          minLength: 1
+          maxLength: 20
+          readOnly: true
+        destroy_all_on_interaction:
+          type: boolean
+          default: false
+          description: 'When used within InteractionTypeQuickReply, destroy_all_on_interaction=true'
+        url:
+          type: string
+          format: uri
+          example: 'https://thebotplatform.com'
+          description: Required if type=open_url
+          readOnly: true
+        actions:
+          type: array
+          description: Required if type=postback
+          maxItems: 3
+          items:
+            $ref: '#/components/schemas/InteractionElementUserAction'
+          readOnly: true
+      required:
+        - type
+        - title
+        - destroy_all_on_interaction
+      readOnly: true
+      description: ''
+    InteractionElementCarouselCard:
+      type: object
+      title: InteractionElementCarouselCard
+      x-examples: {}
+      additionalProperties: false
+      properties:
+        title:
+          type: string
+          example: Card title
+          minLength: 1
+          maxLength: 80
+          readOnly: true
+        subtitle:
+          type: string
+          example: A subtitle
+          minLength: 1
+          maxLength: 80
+          readOnly: true
+        image:
+          type: string
+          format: url
+          example: 'https://d3bwo7bwtzd8ff.cloudfront.net/25/1619691317_41b586905e6233e72b076191f8bf9512.png'
+          description: 'A publicly accessible, absolute URL'
+          readOnly: true
+        buttons:
+          type: array
+          maxItems: 3
+          items:
+            $ref: '#/components/schemas/InteractionElementButton'
+          readOnly: true
+      required:
+        - title
+      readOnly: true
+    InteractionTypeText:
+      type: object
+      title: InteractionTypeText
+      additionalProperties: false
+      properties:
+        type:
+          type: string
+          enum:
+            - text
+          readOnly: true
+        buttons:
+          type: array
+          maxItems: 3
+          items:
+            $ref: '#/components/schemas/InteractionElementButton'
+      required:
+        - type
+      readOnly: true
+    InteractionTypeCarousel:
+      type: object
+      title: InteractionTypeCarousel
+      x-examples: {}
+      additionalProperties: false
+      properties:
+        type:
+          type: string
+          enum:
+            - carousel
+          readOnly: true
+        cards:
+          type: array
+          minItems: 1
+          maxItems: 10
+          items:
+            $ref: '#/components/schemas/InteractionElementCarouselCard'
+          readOnly: true
+      required:
+        - type
+        - cards
+      readOnly: true
+    InteractionTypeMedia:
+      type: object
+      title: InteractionTypeMedia
+      x-examples: {}
+      additionalProperties: false
+      properties:
+        type:
+          type: string
+          enum:
+            - image
+            - video
+            - audio
+          readOnly: true
+        url:
+          type: string
+          example: 'https://d3bwo7bwtzd8ff.cloudfront.net/25/1619691317_41b586905e6233e72b076191f8bf9512.png'
+          description: 'A publicly accessible, absolute URL'
+          readOnly: true
+      required:
+        - type
+        - url
+      readOnly: true
+    InteractionElementUserAction:
+      type: object
+      title: InteractionElementUserAction
+      x-examples: {}
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+          example: '@BP:MESSAGE:789'
+        type:
+          type: string
+          enum:
+            - trigger
+      required:
+        - id
+        - type
+      readOnly: true
+    InteractionTypeQuickReply:
+      type: object
+      title: InteractionTypeQuickReply
+      x-examples: {}
+      additionalProperties: false
+      properties:
+        type:
+          type: string
+          enum:
+            - quick_reply
+          readOnly: true
+        buttons:
+          type: array
+          maxItems: 13
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/InteractionElementButton'
+      required:
+        - type
+        - buttons
+      readOnly: true
     Message:
       title: Message
       type: object
@@ -608,7 +908,90 @@ components:
           refreshUrl: 'https://api.thebotplatform.com/oauth2/token'
           scopes: {}
       description: ''
-  responses: {}
+  responses:
+    InteractionReplyResponse:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: object
+            additionalProperties: false
+            properties:
+              data:
+                type: object
+                additionalProperties: false
+                required:
+                  - type
+                  - attributes
+                properties:
+                  type:
+                    type: string
+                    enum:
+                      - interaction-reply
+                  attributes:
+                    type: object
+                    additionalProperties: false
+                    required:
+                      - user
+                      - output
+                    properties:
+                      user:
+                        type: object
+                        additionalProperties: false
+                        required:
+                          - id
+                        properties:
+                          id:
+                            type: string
+                            example: 2ca467cb-60d1-4880-a0cd-afe6f5edbf15
+                            readOnly: true
+                      output:
+                        type: array
+                        minItems: 0
+                        items:
+                          anyOf:
+                            - $ref: '#/components/schemas/InteractionTypeText'
+                            - $ref: '#/components/schemas/InteractionTypeCarousel'
+                            - $ref: '#/components/schemas/InteractionTypeMedia'
+                            - $ref: '#/components/schemas/InteractionTypeQuickReply'
+                        readOnly: true
+                    readOnly: true
+                readOnly: true
+            required:
+              - data
+            readOnly: true
+          examples: {}
+    UserResponse:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    enum:
+                      - user
+                  attributes:
+                    type: object
+                    required:
+                      - user
+                    properties:
+                      user:
+                        type: object
+                        required:
+                          - id
+                        properties:
+                          id:
+                            type: string
+                            format: uuid
+                required:
+                  - type
+                  - attributes
+          examples: {}
 security:
   - token: []
 x-samples-languages:
