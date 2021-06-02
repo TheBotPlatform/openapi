@@ -16,8 +16,17 @@ paths:
           $ref: '#/components/responses/InteractionReplyResponse'
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+              examples: {}
         '500':
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
       description: Facilitate "headless" interaction with the platform.  Use this endpoint if developing your own bot user interface.
       parameters:
         - schema:
@@ -116,8 +125,18 @@ paths:
           $ref: '#/components/responses/UserResponse'
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+              examples: {}
         '500':
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+              examples: {}
       parameters:
         - schema:
             type: string
@@ -151,6 +170,8 @@ paths:
               examples: {}
         '500':
           description: Internal Server Error
+        '501':
+          description: Not Implemented
       description: Send a CMS message to a given user
       requestBody:
         content:
